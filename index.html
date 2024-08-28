@@ -1,0 +1,80 @@
+<div>
+  <canvas id="Stephen's Chart 1"></canvas>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script>
+
+<script>
+  const ctx = document.getElementById("Stephen's Chart 1");
+
+  var mychart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['15', '20', '25', '30', '35', '40'],
+      datasets: [
+        {
+          label: '97 - John Bourget',
+          data: [25, 22, 19, 14, 10, 7],
+          borderWidth: 3
+        },
+        {
+          label: '66 - Kyle McGee :(',
+          data: [24, 15, 10, 5, 8, 4],
+          borderWidth: 3
+        }
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Makes'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Distance'
+          }
+        }
+      }   ,
+      plugins: {
+        legend: {
+         labels: {
+            padding: 10
+         },
+         position: "right",
+          align: "middle",
+          onHover: (event, legendItem, legend) => {
+              const chart = legend.chart;
+
+
+
+              chart.config.data.datasets.forEach(d => {
+                  d.previousBackgroundColor = d.backgroundColor;
+                  d.previousBorderColor = d.borderColor;
+                  if (legendItem.text !== d.label) {
+                      d.backgroundColor = "rgba(200,200,200,0.2)";
+                      d.borderColor = "rgba(200,200,200,0.2)"
+                  }
+              })
+              chart.update()
+          },
+          onLeave: (event, legendItem, legend) => {
+              const chart = legend.chart;
+              chart.config.data.datasets.forEach((d,index) => {
+                  d.backgroundColor = d.previousBackgroundColor;
+                  d.borderColor = d.previousBorderColor;
+              })
+              chart.update();
+          }
+      },
+      } 
+    },
+  });
+
+  mychart.options.animation = { duration: 0 };
+
+</script>
